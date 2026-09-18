@@ -4,17 +4,23 @@ import Footer from './components/Footer';
 import Home from './views/Home';
 import Courses from './views/Courses';
 import Contact from './views/Contact';
+import Login from './views/Login';
+import Register from './views/Register';
+import AdminDashboard from './views/AdminDashboard';
 
-function App() {
+export default function App() {
   return (
     <Router>
-      <div className="flex flex-col min-h-screen bg-slate-50 text-slate-800">
+      <div className="min-h-screen flex flex-col bg-slate-50">
         <Navbar />
         <main className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/courses" element={<Courses />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/admin" element={<AdminDashboard />} />
           </Routes>
         </main>
         <Footer />
@@ -22,5 +28,3 @@ function App() {
     </Router>
   );
 }
-
-export default App;
