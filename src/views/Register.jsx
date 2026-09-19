@@ -10,18 +10,23 @@ export default function Register() {
   const handleRegister = (e) => {
     e.preventDefault();
     
-    // Crear el objeto del nuevo usuario
+    // 1. Crear el objeto del nuevo usuario
     const nuevoUsuario = { nombre, email, password };
     
-    // Obtener usuarios previos o iniciar arreglo vacío
+    // 2. Obtener usuarios previos o iniciar arreglo vacío
     const usuariosRegistrados = JSON.parse(localStorage.getItem('usuarios')) || [];
     
-    // Guardar el nuevo usuario en el localStorage
+    // 3. Guardar el nuevo usuario en el localStorage de la base de datos de usuarios
     usuariosRegistrados.push(nuevoUsuario);
     localStorage.setItem('usuarios', JSON.stringify(usuariosRegistrados));
     
-    alert("¡Registro exitoso! Ahora puedes iniciar sesión.");
-    navigate('/login');
+    // 4. Iniciar sesión automáticamente guardando el usuario activo
+    localStorage.setItem('usuarioActivo', nombre);
+    
+    alert(`¡Registro exitoso! Bienvenido a Edumotion, ${nombre}.`);
+    
+    // 5. Redirigir a la página principal (o a cursos) ya con la sesión iniciada
+    navigate('/');
   };
 
   return (
@@ -67,7 +72,7 @@ export default function Register() {
             type="submit" 
             className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200 font-semibold"
           >
-            Registrarse
+            Registrarse e Ingresar
           </button>
         </form>
 
