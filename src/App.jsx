@@ -7,6 +7,7 @@ import Contact from './views/Contact';
 import Login from './views/Login';
 import Register from './views/Register';
 import AdminDashboard from './views/AdminDashboard';
+import AdminUsers from './views/AdminUsers';
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/users" element={<AdminUsers />} />
           </Routes>
         </main>
         <Footer />
