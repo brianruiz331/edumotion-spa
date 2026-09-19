@@ -10,21 +10,21 @@ export default function Login() {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // Buscar si el usuario existe en los registrados en localStorage
     const usuariosRegistrados = JSON.parse(localStorage.getItem('usuarios')) || [];
     const usuarioEncontrado = usuariosRegistrados.find(
       (user) => user.email === email && user.password === password
     );
 
     if (usuarioEncontrado || email === "admin@edumotion.com") {
-      // Guardar el nombre del usuario activo para mostrarlo en la app
       const nombreUsuario = usuarioEncontrado ? usuarioEncontrado.nombre : "Administrador";
+      
+      // Guardar sesión y notificar al Navbar
       localStorage.setItem('usuarioActivo', nombreUsuario);
+      window.dispatchEvent(new Event('authChange'));
 
       alert(`¡Bienvenido de nuevo, ${nombreUsuario}!`);
-      navigate('/courses'); // O a la vista principal que prefieras
+      navigate('/');
     } else {
-      // Si no está registrado, avisa y redirige al registro automáticamente
       setErrorMessage("No estás registrado. Redirigiendo al formulario de registro...");
       setTimeout(() => {
         navigate('/register');

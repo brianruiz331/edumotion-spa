@@ -6,23 +6,29 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Revisar si hay un usuario con sesión activa en localStorage
-    const activo = localStorage.getItem('usuarioActivo');
-    if (activo) {
-      setNombreUsuario(activo);
-    }
+    const verificarSesion = () => {
+      const activo = localStorage.getItem('usuarioActivo');
+      setNombreUsuario(activo || '');
+    };
+
+    // Verificar al cargar la página
+    verificarSesion();
+
+    // Escuchar cambios de sesión en tiempo real
+    window.addEventListener('authChange', verificarSesion);
+    return () => window.removeEventListener('authChange', verificarSesion);
   }, []);
 
   const handleLogout = () => {
-    // Borrar la sesión activa
     localStorage.removeItem('usuarioActivo');
+    // Notificar a la app que la sesión se cerró
+    window.dispatchEvent(new Event('authChange'));
     setNombreUsuario('');
     navigate('/login');
   };
 
   return (
     <nav className="bg-white shadow-md px-6 py-4 flex justify-between items-center">
-      {/* Lado izquierdo: Logo y el saludo al lado si ha iniciado sesión */}
       <div className="flex items-center space-x-4">
         <Link to="/" className="text-xl font-bold text-blue-600">Edumotion</Link>
         
@@ -33,14 +39,12 @@ export default function Navbar() {
         )}
       </div>
       
-      {/* Lado derecho: Enlaces de navegación y botones de sesión */}
       <div className="flex items-center space-x-6">
         <Link to="/" className="text-gray-600 hover:text-blue-600">Inicio</Link>
         <Link to="/courses" className="text-gray-600 hover:text-blue-600">Cursos</Link>
         <Link to="/contact" className="text-gray-600 hover:text-blue-600">Contacto</Link>
 
         {nombreUsuario ? (
-          // Si hay sesión iniciada, muestra el botón de cerrar sesión
           <button 
             onClick={handleLogout}
             className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm transition duration-200 font-medium"
@@ -48,7 +52,6 @@ export default function Navbar() {
             Cerrar Sesión
           </button>
         ) : (
-          // Si no ha iniciado sesión, muestra los botones normales
           <div className="flex space-x-3">
             <Link to="/login" className="text-blue-600 border border-blue-600 px-3 py-1 rounded hover:bg-blue-50">Iniciar Sesión</Link>
             <Link to="/register" className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Registrarse</Link>

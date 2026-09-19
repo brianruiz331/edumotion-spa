@@ -10,22 +10,17 @@ export default function Register() {
   const handleRegister = (e) => {
     e.preventDefault();
     
-    // 1. Crear el objeto del nuevo usuario
     const nuevoUsuario = { nombre, email, password };
-    
-    // 2. Obtener usuarios previos o iniciar arreglo vacío
     const usuariosRegistrados = JSON.parse(localStorage.getItem('usuarios')) || [];
     
-    // 3. Guardar el nuevo usuario en el localStorage de la base de datos de usuarios
     usuariosRegistrados.push(nuevoUsuario);
     localStorage.setItem('usuarios', JSON.stringify(usuariosRegistrados));
     
-    // 4. Iniciar sesión automáticamente guardando el usuario activo
+    // Guardar sesión activa y notificar al Navbar inmediatamente
     localStorage.setItem('usuarioActivo', nombre);
+    window.dispatchEvent(new Event('authChange'));
     
     alert(`¡Registro exitoso! Bienvenido a Edumotion, ${nombre}.`);
-    
-    // 5. Redirigir a la página principal (o a cursos) ya con la sesión iniciada
     navigate('/');
   };
 
