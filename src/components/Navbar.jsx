@@ -6,7 +6,7 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Revisar si hay un usuario con sesión activa
+    // Revisar si hay un usuario con sesión activa en localStorage
     const activo = localStorage.getItem('usuarioActivo');
     if (activo) {
       setNombreUsuario(activo);
@@ -14,7 +14,7 @@ export default function Navbar() {
   }, []);
 
   const handleLogout = () => {
-    // Borrar la sesión activa y recargar/redirigir
+    // Borrar la sesión activa
     localStorage.removeItem('usuarioActivo');
     setNombreUsuario('');
     navigate('/login');
@@ -35,7 +35,7 @@ export default function Navbar() {
             <span className="font-semibold text-gray-800">¡Hola, {nombreUsuario}!</span>
             <button 
               onClick={handleLogout}
-              className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm"
+              className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm transition duration-200"
             >
               Cerrar Sesión
             </button>
