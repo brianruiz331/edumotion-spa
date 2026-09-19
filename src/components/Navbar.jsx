@@ -22,24 +22,31 @@ export default function Navbar() {
 
   return (
     <nav className="bg-white shadow-md px-6 py-4 flex justify-between items-center">
-      <Link to="/" className="text-xl font-bold text-blue-600">Edumotion</Link>
+      {/* Lado izquierdo: Logo y el saludo al lado si ha iniciado sesión */}
+      <div className="flex items-center space-x-4">
+        <Link to="/" className="text-xl font-bold text-blue-600">Edumotion</Link>
+        
+        {nombreUsuario && (
+          <span className="text-gray-700 font-medium text-sm border-l pl-4 border-gray-300">
+            ¡Hola, <span className="font-semibold text-blue-600">{nombreUsuario}</span>!
+          </span>
+        )}
+      </div>
       
+      {/* Lado derecho: Enlaces de navegación y botones de sesión */}
       <div className="flex items-center space-x-6">
         <Link to="/" className="text-gray-600 hover:text-blue-600">Inicio</Link>
         <Link to="/courses" className="text-gray-600 hover:text-blue-600">Cursos</Link>
         <Link to="/contact" className="text-gray-600 hover:text-blue-600">Contacto</Link>
 
         {nombreUsuario ? (
-          // Si hay sesión iniciada, muestra el saludo y el botón de cerrar sesión
-          <div className="flex items-center space-x-4">
-            <span className="font-semibold text-gray-800">¡Hola, {nombreUsuario}!</span>
-            <button 
-              onClick={handleLogout}
-              className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm transition duration-200"
-            >
-              Cerrar Sesión
-            </button>
-          </div>
+          // Si hay sesión iniciada, muestra el botón de cerrar sesión
+          <button 
+            onClick={handleLogout}
+            className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm transition duration-200 font-medium"
+          >
+            Cerrar Sesión
+          </button>
         ) : (
           // Si no ha iniciado sesión, muestra los botones normales
           <div className="flex space-x-3">
