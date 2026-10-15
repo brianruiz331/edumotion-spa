@@ -15,9 +15,22 @@ export default function Login() {
             const token = data.session_token || data.token || data.accessToken;
 
             if (token) {
+                // 1. Guardar el token de sesión
                 localStorage.setItem('session_token', token);
+
+                // 2. Guardar los datos del usuario (incluyendo su rol)
+                if (data.user) {
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                }
+
                 alert('¡Bienvenido!');
-                navigate('/admin'); // O puedes cambiarlo a la ruta que prefieras, ej: '/courses'
+
+                // 🌟 3. Validación de rol para la redirección inteligente
+                if (data.user && data.user.role === 'admin') {
+                    navigate('/admin'); // Si es admin, va al panel de administración
+                } else {
+                    navigate('/courses'); // Si es usuario normal, va a la sección de cursos o inicio
+                }
             } else {
                 alert('No se recibió un token válido del servidor.');
             }
