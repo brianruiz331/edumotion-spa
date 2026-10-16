@@ -23,20 +23,29 @@ export default function Login() {
                     localStorage.setItem('user', JSON.stringify(data.user));
                 }
 
-                alert('¡Bienvenido!');
+                alert(`¡Bienvenido de nuevo, ${data.user?.name || 'usuario'}!`);
 
                 // 🌟 3. Validación de rol para la redirección inteligente
                 if (data.user && data.user.role === 'admin') {
                     navigate('/admin'); // Si es admin, va al panel de administración
                 } else {
-                    navigate('/courses'); // Si es usuario normal, va a la sección de cursos o inicio
+                    navigate('/courses'); // Si es usuario normal, va a la sección de cursos
                 }
             } else {
-                alert('No se recibió un token válido del servidor.');
+                // Si el servidor responde pero no devuelve un token válido
+                alert('Usuario no registrado o credenciales incorrectas. Redireccionando al registro...');
+                navigate('/register');
             }
         } catch (error) {
             console.error('Error al iniciar sesión:', error);
-            alert('Credenciales inválidas o error en el servidor.');
+            // Captura errores 404, 401 o de red cuando el usuario no existe o la contraseña falla
+            const status = error.response?.status;
+            if (status === 404 || status === 401 || error.message) {
+                alert('Usuario no registrado o credenciales incorrectas. Redireccionando al registro...');
+                navigate('/register');
+            } else {
+                alert('Error al conectar con el servidor. Inténtalo de nuevo.');
+            }
         }
     };
 

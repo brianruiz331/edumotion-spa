@@ -36,56 +36,62 @@ const Register = () => {
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '40px auto', padding: '20px', border: '1px solid #ccc', borderRadius: '8px', backgroundColor: '#fff' }}>
-      <h2>Registro de Usuario</h2>
-      
-      {message && (
-        <div style={{ padding: '10px', marginBottom: '15px', color: '#fff', backgroundColor: isError ? '#e74c3c' : '#2ecc71', borderRadius: '4px' }}>
-          {message}
-        </div>
-      )}
+    <div className="flex justify-center items-center min-h-[80vh] bg-slate-50 px-4">
+      <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-6 text-center text-slate-800">Registro de Usuario</h2>
+        
+        {message && (
+          <div className={`p-3 mb-4 text-sm text-center font-medium rounded-lg ${isError ? 'bg-red-100 text-red-700 border border-red-200' : 'bg-green-100 text-green-700 border border-green-200'}`}>
+            {message}
+          </div>
+        )}
 
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="name" style={{ display: 'block', marginBottom: '5px' }}>Nombre completo:</label>
+        <div className="mb-4">
+          <label htmlFor="name" className="block text-slate-700 text-sm font-bold mb-2">Nombre Completo</label>
           <input
             type="text"
             id="name"
             name="name"
+            placeholder="Tu nombre completo"
             value={formData.name}
             onChange={handleChange}
             required
-            style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="email" style={{ display: 'block', marginBottom: '5px' }}>Correo electrónico:</label>
+        <div className="mb-4">
+          <label htmlFor="email" className="block text-slate-700 text-sm font-bold mb-2">Correo Electrónico</label>
           <input
             type="email"
             id="email"
             name="email"
+            placeholder="tucorreo@email.com"
             value={formData.email}
             onChange={handleChange}
             required
-            style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="password" style={{ display: 'block', marginBottom: '5px' }}>Contraseña:</label>
+        <div className="mb-6">
+          <label htmlFor="password" className="block text-slate-700 text-sm font-bold mb-2">Contraseña</label>
           <input
             type="password"
             id="password"
             name="password"
+            placeholder="••••••••"
             value={formData.password}
             onChange={handleChange}
             required
-            style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
-        <button type="submit" style={{ width: '100%', padding: '10px', backgroundColor: '#3498db', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200"
+        >
           Registrarse
         </button>
       </form>

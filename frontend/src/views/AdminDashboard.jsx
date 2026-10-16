@@ -84,7 +84,7 @@ const AdminDashboard = () => {
     setIsEditModalOpen(true);
   };
 
-  // Guardar cambios de edición (Conectado a la base de datos)
+  // Guardar cambios de edición (Conectado a la base de datos y actualización en tiempo real)
   const handleSaveEdit = async (e) => {
     e.preventDefault();
     try {
@@ -93,10 +93,22 @@ const AdminDashboard = () => {
         email: editForm.email 
       });
       
+      // Actualizar la tabla local de forma inmediata
       setUsers(users.map(u => u.id === editForm.id ? { ...u, name: editForm.name, email: editForm.email } : u));
+      
+      // Si el usuario editado es el mismo que tiene la sesión activa, actualizar cabecera y localStorage
+      if (currentUser && currentUser.id === editForm.id) {
+        const updatedCurrentUser = {
+          ...currentUser,
+          name: editForm.name,
+          email: editForm.email
+        };
+        setCurrentUser(updatedCurrentUser);
+        localStorage.setItem('user', JSON.stringify(updatedCurrentUser));
+      }
+
       setIsEditModalOpen(false);
       alert('Usuario actualizado con éxito en la base de datos');
-      fetchUsers(); // Recarga la lista para sincronizar
     } catch (err) {
       console.error('Error al actualizar:', err);
       alert('No se pudo actualizar el usuario en el servidor.');
